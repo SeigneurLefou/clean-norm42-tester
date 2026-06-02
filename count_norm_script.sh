@@ -1,8 +1,9 @@
 #!/bin/bash
 
 shopt -s nullglob
+shopt -s globstar
 
-TOTAL_LINE=$(cat *.c *.h **/*.c **/*.h 2> /dev/null | wc -l)
+TOTAL_LINE=$(cat **/*.c **/*.h *.c *.h 2>/dev/null | wc -l)
 if [ "$TOTAL_LINE" -eq 0 ]; then
     echo "No .c or .h files"
 	exit 1
