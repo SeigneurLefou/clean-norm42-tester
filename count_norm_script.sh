@@ -16,7 +16,6 @@ echo "======================================================"
 echo "📊 RATIO ERROR : $TOTAL_ERROR on $TOTAL_LINE lines for $TOTAL_FILE files"
 echo "📈 ${TOTAL_RATIO}%"
 echo "======================================================"
-echo "$(ls -r | grep "\.c" | wc -l)"
 
 check_norme_recursive()
 {
