@@ -10,12 +10,13 @@ if [ "$TOTAL_LINE" -eq 0 ]; then
 fi
 TOTAL_ERROR=$(norminette | grep "Error:" | wc -l)
 TOTAL_RATIO=$(echo "scale=2; ($TOTAL_ERROR / $TOTAL_LINE) * 100" | bc)
+TOTAL_FILE=$(expr $(ls -R | grep "\.c" | wc -l) + $(ls -R | grep "\.h" | wc -l))
 
 echo "======================================================"
-echo "📊 RATIO ERROR : $TOTAL_ERROR on $TOTAL_LINE lines"
+echo "📊 RATIO ERROR : $TOTAL_ERROR on $TOTAL_LINE lines for $TOTAL_FILE files"
 echo "📈 ${TOTAL_RATIO}%"
 echo "======================================================"
-echo ""
+echo "$(ls -r | grep "\.c" | wc -l)"
 
 check_norme_recursive()
 {
