@@ -30,16 +30,15 @@ check_norme_recursive()
     local target="$1"
     local indent="$2"
 
-    # Ignorer les fichiers cachés
     if [[ "$(basename "$target")" == .* ]]; then
         return
     fi
 
     local errs=$(norminette "$target" 2>/dev/null | grep "Error:" | wc -l)
 
-    local ratio="0%"
+    local ratio="0"
     if [ "$TOTAL_ERROR" -gt 0 ]; then
-        ratio="$(( errs * 100 / TOTAL_ERROR ))%"
+        ratio=$(echo "scale=2; ( $errs * 100 / $TOTAL_ERROR )" | bc)
     fi
 
     if [ -d "$target" ]; then
@@ -49,7 +48,7 @@ check_norme_recursive()
             fi
             return
         else 
-            echo "${indent}❌ - $target/ -> $errs errors ($ratio du total)"
+            echo "${indent}❌ - $target/ -> $errs errors ($ratio% du total)"
 
             for child in "$target"/*; do
                 check_norme_recursive "$child" "$indent  "
@@ -62,7 +61,7 @@ check_norme_recursive()
                 echo "${indent}✅ - $target -> 0 errors"
             fi
         else 
-            echo "${indent}❌ - $target -> $errs errors ($ratio du total)"
+            echo "${indent}❌ - $target -> $errs errors ($ratio% du total)"
         fi
     fi
 }
